@@ -49,12 +49,25 @@ int main(int argc, char** argv) {
 
     auto lidar_handler = ouster_ros::OS1::batch_packets(
         scan_dur, [&](ns scan_ts, const ouster_ros::OS1::CloudOS1& cloud) {
-            lidar_pub.publish(
-                ouster_ros::OS1::cloud_to_cloud_msg(cloud, scan_ts));
+            sensor_msgs::PointCloud2 msg = ouster_ros::OS1::cloud_to_cloud_msg(cloud, scan_ts);
+
+         //###################Quick fix of time stamping issue with other sensors. Replace this with PTP 1588 time synched stamps once established! ############
+         msg.header.stamp = ros::Time::now();
+         //#####################################################################################################################################################
+
+            lidar_pub.publish(msg);
+
         });
 
     auto imu_handler = [&](const PacketMsg& p) {
-        imu_pub.publish(ouster_ros::OS1::packet_to_imu_msg(p));
+
+        sensor_msgs::Imu msg = ouster_ros::OS1::packet_to_imu_msg(p);
+
+        //###################Quick fix of time stamping issue with other sensors. Replace this with PTP 1588 time synched stamps once established! ############
+        msg.header.stamp = ros::Time::now();
+        //#####################################################################################################################################################
+
+        imu_pub.publish(msg);
     };
 
     if (replay_mode) {
