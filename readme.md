@@ -1,6 +1,6 @@
 # OS1 Example Client and ROS Node
 
-Fork for the Landscape Mapping Sensor project. Initial commit will be a 'quick fix' of theorder n which the point cloud topic is published, such that it matches the order of 'x' 'y' 'z' 'intensity' that google cartographer uses to work with.
+Fork for the Landscape Mapping Sensor project. Initial commit will be a 'quick fix' of the order in which the point cloud messages are filled, such that it matches the order of 'x' 'y' 'z' 'intensity' that google cartographer uses to work with.
 Furthermore the timpe stamp of the header messages is done with ros::Time::now(). This is is done to fix a timstamping issue and will later on be changed to time stamping with PTP_1588 --> merge with this repo here: https://github.com/ethz-asl/ouster_lidar.git
 
 
